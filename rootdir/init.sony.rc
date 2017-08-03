@@ -80,6 +80,11 @@ service iddd /system/bin/iddd
     group idd log inet trimarea
 
 # Redefined Services for Credential Manager
+service audioserver /system/bin/audioserver
+    class main
+    user audioserver
+    group audio trimarea camera drmrpc inet media mediadrm net_bt net_bt_admin net_bw_acct qcom_diag
+
 service drm /system/bin/drmserver
     class main
     user drm
@@ -92,4 +97,9 @@ service media /system/bin/mediaserver
     ioprio rt 4
     # SONY: restart qcamerasvr
     onrestart restart qcamerasvr
+
+service mediadrm /system/bin/mediadrmserver
+    class main
+    user media
+    group mediadrm drmrpc trimarea
 
