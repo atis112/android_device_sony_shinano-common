@@ -81,22 +81,23 @@ PRODUCT_PACKAGES += \
 
 # Assertive Display
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/ad_calib.cfg:system/etc/ad_calib.cfg
+    $(LOCAL_PATH)/configs/display/ad_calib.cfg:system/etc/ad_calib.cfg
 
-# RIL
+# Qualcomm Modem Interface
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/netmgr_config.xml:system/etc/data/netmgr_config.xml \
-    $(LOCAL_PATH)/configs/dsi_config.xml:system/etc/data/dsi_config.xml \
-    $(LOCAL_PATH)/configs/qmi_config.xml:system/etc/data/qmi_config.xml
+    $(LOCAL_PATH)/configs/qmi/netmgr_config.xml:system/etc/data/netmgr_config.xml \
+    $(LOCAL_PATH)/configs/qmi/dsi_config.xml:system/etc/data/dsi_config.xml \
+    $(LOCAL_PATH)/configs/qmi/qmi_config.xml:system/etc/data/qmi_config.xml \
+    $(COMMON_PATH)/configs/sensor/sec_config:system/etc/sec_config
 
 # Media profile
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/media_codecs.xml:system/etc/media_codecs.xml \
-    $(COMMON_PATH)/media_codecs_performance.xml:system/etc/media_codecs_performance.xml
+    $(COMMON_PATH)/configs/media/media_codecs.xml:system/etc/media_codecs.xml \
+    $(COMMON_PATH)/configs/media/media_codecs_performance.xml:system/etc/media_codecs_performance.xml
 
 # Bluetooth
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
+    $(COMMON_PATH)/configs/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -110,17 +111,13 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/gps/flp.conf:system/etc/flp.conf \
-    $(COMMON_PATH)/gps/gps.conf:system/etc/gps.conf \
-    $(COMMON_PATH)/gps/izat.conf:system/etc/izat.conf \
-    $(COMMON_PATH)/gps/sap.conf:system/etc/sap.conf
+    $(COMMON_PATH)/configs/gps/flp.conf:system/etc/flp.conf \
+    $(COMMON_PATH)/configs/gps/gps.conf:system/etc/gps.conf \
+    $(COMMON_PATH)/configs/gps/izat.conf:system/etc/izat.conf \
+    $(COMMON_PATH)/configs/gps/sap.conf:system/etc/sap.conf
 
 PRODUCT_PACKAGES += \
     gps.msm8974
-
-# IPC Security Config
-PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/rootdir/system/etc/sec_config:system/etc/sec_config
 
 # Keystore
 PRODUCT_PACKAGES += \
@@ -128,9 +125,9 @@ PRODUCT_PACKAGES += \
 
 # Keylayout
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/rootdir/system/usr/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-    $(COMMON_PATH)/rootdir/system/usr/keylayout/mhl-rcp.kl:system/usr/keylayout/mhl-rcp.kl \
-    $(COMMON_PATH)/rootdir/system/usr/keylayout/msm8974-taiko-mtp-snd-card_Button_Jack.kl:system/usr/keylayout/msm8974-taiko-mtp-snd-card_Button_Jack.kl
+    $(COMMON_PATH)/configs/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+    $(COMMON_PATH)/configs/keylayout/mhl-rcp.kl:system/usr/keylayout/mhl-rcp.kl \
+    $(COMMON_PATH)/configs/keylayout/msm8974-taiko-mtp-snd-card_Button_Jack.kl:system/usr/keylayout/msm8974-taiko-mtp-snd-card_Button_Jack.kl
 
 # MAC address - BT and Wi-Fi
 PRODUCT_PACKAGES += \
@@ -143,7 +140,7 @@ PRODUCT_PACKAGES += \
     nfc_nci.pn54x.default
 
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/rootdir/system/etc/nfcee_access.xml:system/etc/nfcee_access.xml \
+    $(COMMON_PATH)/configs/nfc/nfcee_access.xml:system/etc/nfcee_access.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
     frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml \
     frameworks/native/data/etc/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
