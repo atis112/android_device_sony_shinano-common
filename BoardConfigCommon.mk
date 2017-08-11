@@ -15,7 +15,7 @@
 # inherit from msm8974-common
 include device/sony/msm8974-common/BoardConfigCommon.mk
 
-TARGET_SPECIFIC_HEADER_PATH += device/sony/shinano-common/include
+PLATFORM_PATH := device/sony/shinano-common
 
 # Platform
 BOARD_VENDOR_PLATFORM := shinano
@@ -25,10 +25,10 @@ PRODUCT_PLATFORM:= shinano
 BOARD_KERNEL_BASE     := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_CMDLINE  := androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 dwc3.maximum_speed=high dwc3_msm.prop_chg_detect=Y
-#BOARD_KERNEL_CMDLINE  += androidboot.selinux=permissive
 BOARD_MKBOOTIMG_ARGS  := --ramdisk_offset 0x02000000 --tags_offset 0x01E00000
 BOARD_KERNEL_SEPARATED_DT := true
 TARGET_DTB_EXTRA_FLAGS := --force-v2
+TARGET_SPECIFIC_HEADER_PATH += $(PLATFORM_PATH)/include
 
 # ANT+
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
@@ -52,14 +52,14 @@ BOARD_HAVE_BCM_FM := true
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/sony/shinano-common/bluetooth
-BOARD_CUSTOM_BT_CONFIG := device/sony/shinano-common/bluetooth/vnd_shinano.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(PLATFORM_PATH)/bluetooth
+BOARD_CUSTOM_BT_CONFIG := $(PLATFORM_PATH)/bluetooth/vnd_shinano.txt
 
 # Camera
 TARGET_USES_MEDIA_EXTENSIONS := true
 
 # CM Hardware
-BOARD_HARDWARE_CLASS += device/sony/shinano-common/cmhw
+BOARD_HARDWARE_CLASS += $(PLATFORM_PATH)/cmhw
 
 # Dumpstate
 BOARD_LIB_DUMPSTATE := libdumpstate.sony
@@ -74,13 +74,12 @@ TARGET_INIT_VENDOR_LIB := libinit_shinano
 TARGET_KEYMASTER_WAIT_FOR_QSEE := true
 
 # SELinux
-BOARD_SEPOLICY_DIRS += \
-    device/sony/shinano-common/sepolicy
+BOARD_SEPOLICY_DIRS += $(PLATFORM_PATH)/sepolicy
     
 # Props for hotplugging
-TARGET_SYSTEM_PROP += device/sony/shinano-common/system.prop
+TARGET_SYSTEM_PROP += $(PLATFORM_PATH)/system.prop
 
-#Sensors
+# Sensors
 USE_SENSOR_MULTI_HAL := true
 
 # Wifi
@@ -110,5 +109,5 @@ BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2671771648
 
 # Recovery
-TARGET_RECOVERY_FSTAB := device/sony/shinano-common/rootdir/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(PLATFORM_PATH)/rootdir/fstab.qcom
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBA_8888"

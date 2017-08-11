@@ -15,9 +15,15 @@
 # inherit from msm8974-common
 $(call inherit-product, device/sony/msm8974-common/msm8974.mk)
 
-COMMON_PATH := device/sony/shinano-common
+# inherit BCM4339 open-source firmware
+$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
 
-DEVICE_PACKAGE_OVERLAYS += $(COMMON_PATH)/overlay
+# Include non-opensource parts
+$(call inherit-product, vendor/sony/shinano-common/shinano-common-vendor.mk)
+
+PLATFORM_PATH := device/sony/shinano-common
+
+DEVICE_PACKAGE_OVERLAYS += $(PLATFORM_PATH)/overlay
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -39,31 +45,30 @@ PRODUCT_COPY_FILES += \
 
 # Init
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/rootdir/fstab.qcom:root/fstab.qcom \
-    $(COMMON_PATH)/rootdir/init.qcom.rc:root/init.qcom.rc \
-    $(COMMON_PATH)/rootdir/init.shims.rc:root/init.shims.rc \
-    $(COMMON_PATH)/rootdir/init.qcom.power.rc:root/init.qcom.power.rc \
-    $(COMMON_PATH)/rootdir/init.sony.rc:root/init.sony.rc \
-    $(COMMON_PATH)/rootdir/init.sony-msm8974.rc:root/init.sony-msm8974.rc \
-    $(COMMON_PATH)/rootdir/init.sony-platform.rc:root/init.sony-platform.rc \
-    $(COMMON_PATH)/rootdir/init.sony.usb.rc:root/init.sony.usb.rc \
-    $(COMMON_PATH)/rootdir/ueventd.qcom.rc:root/ueventd.qcom.rc
+    $(PLATFORM_PATH)/rootdir/fstab.qcom:root/fstab.qcom \
+    $(PLATFORM_PATH)/rootdir/init.qcom.rc:root/init.qcom.rc \
+    $(PLATFORM_PATH)/rootdir/init.shims.rc:root/init.shims.rc \
+    $(PLATFORM_PATH)/rootdir/init.qcom.power.rc:root/init.qcom.power.rc \
+    $(PLATFORM_PATH)/rootdir/init.sony.rc:root/init.sony.rc \
+    $(PLATFORM_PATH)/rootdir/init.sony-msm8974.rc:root/init.sony-msm8974.rc \
+    $(PLATFORM_PATH)/rootdir/init.sony-platform.rc:root/init.sony-platform.rc \
+    $(PLATFORM_PATH)/rootdir/init.sony.usb.rc:root/init.sony.usb.rc \
+    $(PLATFORM_PATH)/rootdir/ueventd.qcom.rc:root/ueventd.qcom.rc
 
 # Recovery Init
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/rootdir/init.qcom.power.rc:root/init.recovery.qcom.rc
+    $(PLATFORM_PATH)/rootdir/init.qcom.power.rc:root/init.recovery.qcom.rc
 
-# Camera (stock .575 blobs)
+# Camera (stock .291 blobs)
 PRODUCT_PACKAGES += \
 	libshims_signal \
 	libshims_idd \
     libsonycamera
 
+# TrimArea daemon
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/rootdir/sbin/tad_static:root/sbin/tad_static
-
-PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/rootdir/system/bin/credmgrfirstboot.sh:system/bin/credmgrfirstboot.sh
+    $(PLATFORM_PATH)/rootdir/sbin/tad_static:root/sbin/tad_static \
+    $(PLATFORM_PATH)/rootdir/system/bin/credmgrfirstboot.sh:system/bin/credmgrfirstboot.sh
 
 # ANT+
 PRODUCT_PACKAGES += \
@@ -73,31 +78,63 @@ PRODUCT_PACKAGES += \
 
 # Audio
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/configs/audio/audio_platform_info.xml:system/etc/audio_platform_info.xml \
-    $(COMMON_PATH)/configs/audio/audio_policy.conf:system/etc/audio_policy.conf
+    $(PLATFORM_PATH)/configs/audio/audio_platform_info.xml:system/etc/audio_platform_info.xml \
+    $(PLATFORM_PATH)/configs/audio/audio_policy.conf:system/etc/audio_policy.conf
 
 PRODUCT_PACKAGES += \
     tfa9890_amp
 
+# Bluetooth & MAC Address
+PRODUCT_COPY_FILES += \
+    $(PLATFORM_PATH)/configs/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
+
+PRODUCT_PACKAGES += \
+    macaddrsetup
+
 # Assertive Display
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/display/ad_calib.cfg:system/etc/ad_calib.cfg
+    $(PLATFORM_PATH)/configs/display/ad_calib.cfg:system/etc/ad_calib.cfg
+
+# GPS
+PRODUCT_COPY_FILES += \
+    $(PLATFORM_PATH)/configs/gps/flp.conf:system/etc/flp.conf \
+    $(PLATFORM_PATH)/configs/gps/gps.conf:system/etc/gps.conf \
+    $(PLATFORM_PATH)/configs/gps/izat.conf:system/etc/izat.conf \
+    $(PLATFORM_PATH)/configs/gps/sap.conf:system/etc/sap.conf
+
+PRODUCT_PACKAGES += \
+    gps.msm8974
+
+# Keylayout
+PRODUCT_COPY_FILES += \
+    $(PLATFORM_PATH)/configs/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+    $(PLATFORM_PATH)/configs/keylayout/mhl-rcp.kl:system/usr/keylayout/mhl-rcp.kl \
+    $(PLATFORM_PATH)/configs/keylayout/msm8974-taiko-mtp-snd-card_Button_Jack.kl:system/usr/keylayout/msm8974-taiko-mtp-snd-card_Button_Jack.kl
+
+# Media profiles
+PRODUCT_COPY_FILES += \
+    $(PLATFORM_PATH)/configs/media/media_codecs.xml:system/etc/media_codecs.xml \
+    $(PLATFORM_PATH)/configs/media/media_codecs_performance.xml:system/etc/media_codecs_performance.xml
+
+# NFC
+PRODUCT_PACKAGES += \
+    NfcNci \
+    com.android.nfc_extras \
+    nfc_nci.pn54x.default
+
+PRODUCT_COPY_FILES += \
+    $(PLATFORM_PATH)/configs/nfc/nfcee_access.xml:system/etc/nfcee_access.xml \
+    frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
+    frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml \
+    frameworks/native/data/etc/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
+    frameworks/native/data/etc/com.nxp.mifare.xml:system/etc/permissions/com.nxp.mifare.xml
 
 # Qualcomm Modem Interface
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/qmi/netmgr_config.xml:system/etc/data/netmgr_config.xml \
-    $(LOCAL_PATH)/configs/qmi/dsi_config.xml:system/etc/data/dsi_config.xml \
-    $(LOCAL_PATH)/configs/qmi/qmi_config.xml:system/etc/data/qmi_config.xml \
-    $(COMMON_PATH)/configs/sensor/sec_config:system/etc/sec_config
-
-# Media profile
-PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/configs/media/media_codecs.xml:system/etc/media_codecs.xml \
-    $(COMMON_PATH)/configs/media/media_codecs_performance.xml:system/etc/media_codecs_performance.xml
-
-# Bluetooth
-PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/configs/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
+    $(PLATFORM_PATH)/configs/qmi/dsi_config.xml:system/etc/data/dsi_config.xml \
+    $(PLATFORM_PATH)/configs/qmi/netmgr_config.xml:system/etc/data/netmgr_config.xml \
+    $(PLATFORM_PATH)/configs/qmi/qmi_config.xml:system/etc/data/qmi_config.xml \
+    $(PLATFORM_PATH)/configs/sensor/sec_config:system/etc/sec_config
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -109,49 +146,10 @@ PRODUCT_PACKAGES += \
    brcm-uim-sysfs \
    libfmradio.v4l2-fm
 
-# GPS
-PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/configs/gps/flp.conf:system/etc/flp.conf \
-    $(COMMON_PATH)/configs/gps/gps.conf:system/etc/gps.conf \
-    $(COMMON_PATH)/configs/gps/izat.conf:system/etc/izat.conf \
-    $(COMMON_PATH)/configs/gps/sap.conf:system/etc/sap.conf
-
-PRODUCT_PACKAGES += \
-    gps.msm8974
-
 # Keystore
 PRODUCT_PACKAGES += \
     keystore.msm8974
 
-# Keylayout
-PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/configs/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-    $(COMMON_PATH)/configs/keylayout/mhl-rcp.kl:system/usr/keylayout/mhl-rcp.kl \
-    $(COMMON_PATH)/configs/keylayout/msm8974-taiko-mtp-snd-card_Button_Jack.kl:system/usr/keylayout/msm8974-taiko-mtp-snd-card_Button_Jack.kl
-
-# MAC address - BT and Wi-Fi
-PRODUCT_PACKAGES += \
-    macaddrsetup
-
-# NFC
-PRODUCT_PACKAGES += \
-    NfcNci \
-    com.android.nfc_extras \
-    nfc_nci.pn54x.default
-
-PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/configs/nfc/nfcee_access.xml:system/etc/nfcee_access.xml \
-    frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
-    frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml \
-    frameworks/native/data/etc/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
-    frameworks/native/data/etc/com.nxp.mifare.xml:system/etc/permissions/com.nxp.mifare.xml
-
 # Off mode charger
 PRODUCT_PACKAGES += \
     charger_res_images
-
-# BCM Wifi
-$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
-
-# Include non-opensource parts
-$(call inherit-product, vendor/sony/shinano-common/shinano-common-vendor.mk)
