@@ -133,7 +133,7 @@ PRODUCT_COPY_FILES += \
     $(PLATFORM_PATH)/configs/qmi/dsi_config.xml:system/etc/data/dsi_config.xml \
     $(PLATFORM_PATH)/configs/qmi/netmgr_config.xml:system/etc/data/netmgr_config.xml \
     $(PLATFORM_PATH)/configs/qmi/qmi_config.xml:system/etc/data/qmi_config.xml \
-    $(PLATFORM_PATH)/configs/sensor/sec_config:system/etc/sec_config
+    $(PLATFORM_PATH)/configs/qmi/sec_config:system/etc/sec_config
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
