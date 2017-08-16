@@ -8,9 +8,6 @@
 # Modem
 /system/bin/mlog_qmi_service         u:object_r:mlog_qmi_exec:s0
 
-# Hardware tunables
-/sys/devices/virtual/timed_output/vibrator/vtg_level   -- u:object_r:sysfs_vibrator:s0
-
 # In Device Diagnostics (idd)
 /system/bin/iddd                                         u:object_r:iddd_exec:s0
 /system/bin/idd-logreader                                u:object_r:iddd_exec:s0
