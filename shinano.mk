@@ -135,10 +135,6 @@ PRODUCT_COPY_FILES += \
     $(PLATFORM_PATH)/configs/qmi/qmi_config.xml:system/etc/data/qmi_config.xml \
     $(PLATFORM_PATH)/configs/qmi/sec_config:system/etc/sec_config
 
-# Filesystem management tools
-PRODUCT_PACKAGES += \
-    e2fsck
-
 # FM
 PRODUCT_PACKAGES += \
    FMRadio \
