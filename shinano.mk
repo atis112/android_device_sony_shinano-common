@@ -46,13 +46,13 @@ PRODUCT_COPY_FILES += \
 # Init
 PRODUCT_COPY_FILES += \
     $(PLATFORM_PATH)/rootdir/fstab.qcom:root/fstab.qcom \
+    $(PLATFORM_PATH)/rootdir/init.qcom.power.rc:root/init.qcom.power.rc \
     $(PLATFORM_PATH)/rootdir/init.qcom.rc:root/init.qcom.rc \
     $(PLATFORM_PATH)/rootdir/init.shims.rc:root/init.shims.rc \
-    $(PLATFORM_PATH)/rootdir/init.qcom.power.rc:root/init.qcom.power.rc \
     $(PLATFORM_PATH)/rootdir/init.sony.rc:root/init.sony.rc \
+    $(PLATFORM_PATH)/rootdir/init.sony.usb.rc:root/init.sony.usb.rc \
     $(PLATFORM_PATH)/rootdir/init.sony-msm8974.rc:root/init.sony-msm8974.rc \
     $(PLATFORM_PATH)/rootdir/init.sony-platform.rc:root/init.sony-platform.rc \
-    $(PLATFORM_PATH)/rootdir/init.sony.usb.rc:root/init.sony.usb.rc \
     $(PLATFORM_PATH)/rootdir/ueventd.qcom.rc:root/ueventd.qcom.rc
 
 # Recovery Init
@@ -63,12 +63,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	libshims_signal \
 	libshims_idd \
-    libsonycamera
+        libsonycamera
 
 # TrimArea daemon
 PRODUCT_COPY_FILES += \
     $(PLATFORM_PATH)/rootdir/sbin/tad_static:root/sbin/tad_static \
-    $(PLATFORM_PATH)/rootdir/system/bin/credmgrfirstboot.sh:system/bin/credmgrfirstboot.sh
+    $(PLATFORM_PATH)/rootdir/init.credmgr.sh:root/init.credmgr.sh
 
 # ANT+
 PRODUCT_PACKAGES += \

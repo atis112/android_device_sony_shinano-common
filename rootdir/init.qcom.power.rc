@@ -91,11 +91,13 @@ on boot
 
 on property:init.svc.recovery=running
     trigger enable-low-power
+
+    # adb usb config
     write /sys/class/android_usb/android0/idVendor 0FCE
     write /sys/class/android_usb/android0/idProduct 6${ro.usb.pid_suffix}
 
 on property:dev.bootcomplete=1
-    # Set max mA current for usb/dc charger
+    # Set max mA for usb/dc charger
     write /sys/class/power_supply/qpnp-dc/current_max 1800000
     write /sys/class/power_supply/usb/current_max 1500000
 
