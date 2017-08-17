@@ -68,7 +68,7 @@ PRODUCT_PACKAGES += \
 # TrimArea daemon
 PRODUCT_COPY_FILES += \
     $(PLATFORM_PATH)/rootdir/sbin/tad_static:root/sbin/tad_static \
-    $(PLATFORM_PATH)/rootdir/init.credmgr.sh:root/init.credmgr.sh
+    $(PLATFORM_PATH)/rootdir/init.credmgr.sh:root/system/bin/init.credmgr.sh
 
 # ANT+
 PRODUCT_PACKAGES += \

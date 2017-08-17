@@ -57,7 +57,7 @@ on boot
     mkdir /data/nfc/param 0770 nfc nfc
 
 # CredentialManager initial boot patch script.
-service initcredmgr /init.credmgr.sh
+service initcredmgr /system/bin/init.credmgr.sh
     class late_start
     user system
     group credmgr_client
